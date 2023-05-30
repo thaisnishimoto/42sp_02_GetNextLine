@@ -6,17 +6,12 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/05/29 23:18:19 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:55:28 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minunit.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <stdlib.h>
+#include "get_next_line.h"
 
 char    *get_next_line(int fd);
 
@@ -25,7 +20,7 @@ MU_TEST(file_manipulation)
 	int	fd;
 	int	i = 0;
 	ssize_t	bytes;
-	char	buffer1[1000] = "First line.\nSecond line.";
+	char	buffer1[1000] = "1st line.\n2nd line.\n3rd line.\n";
 	char	buffer2[1000];
 
 	fd = open("file.txt", O_RDWR | O_CREAT, 0777);
@@ -41,13 +36,11 @@ MU_TEST(file_manipulation)
 			lseek(fd, 0, SEEK_SET);
 			bytes = read(fd, buffer2, strlen(buffer1));
 			if (bytes == -1)
-			{
 				printf("%s", "Read unsuccessful");
-				perror("Read error");
-			}
 			else
 			{
-				printf("Read function result: %ld\n", bytes);
+				printf("Bytes read: %ld\n", bytes);
+				printf("\nContent of file:\n");
 				while (buffer2[i])
 					write(1, &buffer2[i++], 1);	
 			}
@@ -61,9 +54,21 @@ MU_TEST(funtion_should_read_one_line)
 {
 	int	fd;
 	char	*line;
-//	char	**buffer;
+//	char	buffer[10];
 
+	printf("\n TEST 1:\n");
 	fd = open("file.txt", O_RDWR);
+//	while ((line = get_next_line(fd)) != NULL)
+//	{
+//		printf("%s\n", line);
+//		free(line);	
+//	}
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	free(line);	
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	free(line);	
 	line = get_next_line(fd);
 	printf("%s\n", line);
 	free(line);	
