@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/05/30 17:55:28 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:17:21 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,26 @@ MU_TEST(funtion_should_read_one_line)
 {
 	int	fd;
 	char	*line;
-//	char	buffer[10];
 
 	printf("\n TEST 1:\n");
 	fd = open("file.txt", O_RDWR);
-//	while ((line = get_next_line(fd)) != NULL)
-//	{
-//		printf("%s\n", line);
-//		free(line);	
-//	}
-	line = get_next_line(fd);
-	printf("%s\n", line);
-	free(line);	
-	line = get_next_line(fd);
-	printf("%s\n", line);
-	free(line);	
-	line = get_next_line(fd);
-	printf("%s\n", line);
-	free(line);	
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("RETURNED LINE: %s\n", line);
+		free(line);	
+	}
+//	line = get_next_line(fd);
+//	printf("%s\n", line);
+//	free(line);	
+//	line = get_next_line(fd);
+//	printf("%s\n", line);
+//	free(line);	
+//	line = get_next_line(fd);
+//	printf("%s\n", line);
+//	free(line);	
+//	line = get_next_line(fd);
+//	printf("%s\n", line);
+//	free(line);	
 }
 
 MU_TEST_SUITE(test_suite)

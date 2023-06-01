@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:08:54 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/05/30 17:53:29 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:18:16 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,93 @@
 char	*get_next_line(int fd)
 {
 	char	*buffer; //buffer to input string read
-	char	*str;
-	static char	*temp;
+	char	*line;
 	int	i;
 	int	j;
-//	while (temp[i] != '\n')
-//	{
-//		if (temp[i] != '\0')
-//			i++;
-//		else
-//			break;
-//	}
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	str = malloc(100 * sizeof(char));
-	if (buffer == NULL || str == NULL)
+	int	bytes;
+	static char	*backup;
+
+	j = 0;
+	i = 0;
+	line = malloc(100 * sizeof(char));
+	if (line == NULL)
 		return (NULL);
-//		while (read(fd, buffer, BUFFER_SIZE))
+	if (backup)
+	{
+		if (ft_strchr(backup, '\n'))
+		{
+			while (backup[i] != '\n')
+			{
+				line[j] = backup[i];
+				j++;
+				i++;
+			}
+			backup = ft_strchr(backup, '\n');
+			return (line);
+		}
+		else
+		{
+			while (backup[i])
+			{
+				line[j] = backup[i];
+				j++;
+				i++;
+			}
+		}
+	}
+//	printf("Backup len: %zu", ft_strlen(backup));
+//	while (backup[i])
+//	{
+//		if (backup[i] != '\0')
+//		{	
+//			str[j] = backup[i];
+//			i++;
+//			j++;
+//		}
+//		else
 //		{
-//			printf("Buffer: %s\n", buffer);
-//			if (ft_strchr(buffer, '\n') == NULL);
+//			str[j] = backup[i++];
+//			backup = ft_strdup(&backup[i]);
+//			return (str);
 //		}
 //	}
-	j = 0;
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buffer == NULL)
+		return (NULL);
 	while (1)
 	{
-		read(fd, buffer, BUFFER_SIZE);
+		bytes = (read(fd, buffer, BUFFER_SIZE));
+		printf("Bytes read: %d\n", bytes);
+		if (bytes == 0)
+			return (NULL);
+		buffer[BUFFER_SIZE] = '\0';
 		printf("Buffer: %s\n", buffer);
 		i = 0;
 		while(i < BUFFER_SIZE)
 		{
 			if (buffer[i] != '\n')
 			{
-				str[j] = buffer[i];
+				line[j] = buffer[i];
 				j++;
 				i++;
 			}
 			else
 			{
-				str[j] = buffer[i];
+				line[j] = buffer[i];
 				j++;
+				line[j] = '\0';
 				break;
 			}
 		}
 		if (buffer[i] == '\n')
+		{	
+			i++;
 			break;
+		}
 	}
-//		while (buffer[i] != '\n')
-//		{	
-//			str[i] = buffer[i];
-//			i++;
-//		}
-//		if (buffer[i] == '\n')
-//		{
-//			str[i] = buffer[i];
-//			i++;
-//		}
-	str[j] = '\0';
-	printf("Line: %s\n", str);
-	temp = ft_strdup(&buffer[i]);
+	printf("Line: %s\n", line);
+	backup = ft_strdup(&buffer[i]);
 	free(buffer);
-	printf("Backup: %s\n", temp);
-	return (str);
+	printf("Backup: %s\n", backup);
+	return (line);
 }
