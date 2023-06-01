@@ -6,16 +6,20 @@
 #    By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 20:22:45 by tmina-ni          #+#    #+#              #
-#    Updated: 2023/05/28 22:22:49 by tmina-ni         ###   ########.fr        #
+#    Updated: 2023/06/01 14:38:42 by tmina-ni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = program
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
+SRC = $(wildcard ../*.c)
 
-test_%:
-	$(CC) $(CFLAGS) $@.c -lrt -lm -o $(NAME)
+# Default BUFFER_SIZE value
+BUFFER_SIZE ?= 1
+
+all:
+	$(CC) $(CFLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) test_gnl.c $(SRC) -lrt -lm -o $(NAME)
 	./program
 
 clean:

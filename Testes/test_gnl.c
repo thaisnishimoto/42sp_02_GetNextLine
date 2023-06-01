@@ -6,12 +6,12 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/05/31 23:17:21 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:10:23 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minunit.h"
-#include "get_next_line.h"
+#include "../get_next_line.h"
 
 char    *get_next_line(int fd);
 
@@ -62,24 +62,27 @@ MU_TEST(funtion_should_read_one_line)
 		printf("RETURNED LINE: %s\n", line);
 		free(line);	
 	}
-//	line = get_next_line(fd);
-//	printf("%s\n", line);
-//	free(line);	
-//	line = get_next_line(fd);
-//	printf("%s\n", line);
-//	free(line);	
-//	line = get_next_line(fd);
-//	printf("%s\n", line);
-//	free(line);	
-//	line = get_next_line(fd);
-//	printf("%s\n", line);
-//	free(line);	
+}
+
+MU_TEST(no_nl)
+{
+	int	fd;
+	char	*line;
+
+	printf("\n TEST 2:\n");
+	fd = open("42_no_nl.txt", O_RDWR);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("RETURNED LINE: %s\n", line);
+		free(line);	
+	}
 }
 
 MU_TEST_SUITE(test_suite)
 {
 	MU_RUN_TEST(file_manipulation);
 	MU_RUN_TEST(funtion_should_read_one_line);
+	MU_RUN_TEST(no_nl);
 }
 
 int	main(void)

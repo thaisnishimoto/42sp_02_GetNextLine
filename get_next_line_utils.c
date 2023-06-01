@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/05/31 17:44:35 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:58:13 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,48 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	void	*ptr;
-	size_t	total_size;
-	size_t	i;
+	size_t	s1_len;
+	size_t	s2_len;
+	char	*ptr;
 
-	total_size = nmemb * size;
-	if (total_size && nmemb > total_size / size)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	ptr = malloc(total_size);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	ptr = malloc((s1_len + s2_len + 1) * 1);
 	if (ptr == NULL)
 		return (NULL);
-	i = 0;
-	while (i < total_size)
-	{
-		((unsigned char *)ptr)[i] = 0;
-		i++;
-	}
+	ft_memmove(ptr, s1, s1_len);
+	ft_memmove(&ptr[s1_len], s2, s2_len);
+	ptr[s1_len + s2_len] = '\0';
 	return (ptr);
+}
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	if (dest <= src)
+	{
+		i = 0;
+		while (i < n)
+		{
+			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+			i++;
+		}
+	}
+	else
+	{
+		i = n;
+		while (i > 0)
+		{
+			((unsigned char *)dest)[i - 1] = ((unsigned char *)src)[i - 1];
+			i--;
+		}
+	}
+	return (dest);
 }
