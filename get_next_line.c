@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:08:54 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/01 18:26:19 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:36:36 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,80 +15,57 @@
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	char		line[100];
+	char		*line;
 	char		*temp;
-	int			i;
-	int			j;
-	size_t			buff_len;
+	int		bytes_read;
 	static char	*backup;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	j = 0;
-	i = 0;
-//	line = malloc(100 * sizeof(char));
-//	if (line == NULL)
-//		return (NULL);
-	if (backup)
+	if (backup == NULL)
+		backup = ft_linedup("");
+	line = ft_linedup(backup);
+//	printf("Backup returned: %s\n", line);
+	if (ft_strchr(backup, '\n'))
 	{
-		if (ft_strchr(backup, '\n'))
-		{
-			while (backup[i] != '\n')
-				line[j++] = backup[i++];
-			line[j++] = backup[i++];
-			line[j] = '\0';
-			backup = ft_strchr(backup, '\n');
-			backup++;
-			return (line);
-		}
-		else
-		{
-			while (backup[i])
-				line[j++] = backup[i++];
-		}
+		temp = ft_strchr(backup, '\n');
+		free (backup);
+		backup = temp++;
+		return (line);
 	}
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (buffer == NULL)
-		return (NULL);
 	while (1)
 	{
-		if ((read(fd, buffer, BUFFER_SIZE)) == 0)
+		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (buffer == NULL)
+			return (NULL);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+//		printf("Bytes read: %d\n", bytes_read);
+		if (bytes_read == 0)
 		{
+			free(line);
 			free(buffer);
 			return (NULL);
 		}
-		buffer[BUFFER_SIZE] = '\0';
-		printf("Buffer: %s\n", buffer);
-		buff_len = printf("Buffer len: %zu\n", ft_strlen(buffer));
-		i = 0;
-//		if (ft_strchr(buffer, '\n'))
-//			line = ft_strdup(buffer);
-		while (i < BUFFER_SIZE)
+		buffer[bytes_read] = '\0';
+//		printf("Buffer: %s\n", buffer);
+		//complete line
+		temp = ft_join_line(line, buffer);
+		free (line);
+		line = temp;
+//		printf("Line joined: %s\n", line);
+		//check for backup
+		if (ft_strchr(buffer, '\n'))
 		{
-			if (buffer[i] != '\n')
-			{
-				line[j] = buffer[i];
-				j++;
-				i++;
-			}
-			else
-			{
-				line[j] = buffer[i];
-				j++;
-				line[j] = '\0';
-				break ;
-			}
-		}
-		if (buffer[i] == '\n')
-		{	
-			i++;
+			backup = ft_memmove(backup, ft_strchr(buffer, '\n'), BUFFER_SIZE);
+			backup++;
+			//backup = ft_strdup(backup);
+//			printf("Backup: %s\n", backup);
+		//	free (buffer);
 			break ;
 		}
+		free (buffer);
+		buffer = NULL;
 	}
-	printf("Line: %s\n", line);
-	backup = ft_strdup(&buffer[i]);
-	free(buffer);
-	printf("Backup: %s\n", backup);
-	temp = ft_strdup(line);
-	return (temp);
+	printf("Final line: %s\n", line);
+	return (line);
 }

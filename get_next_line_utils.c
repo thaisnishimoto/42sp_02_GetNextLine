@@ -6,19 +6,19 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/01 17:58:13 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:35:04 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_linedup(const char *s)
 {
 	size_t	len;
 	size_t	i;
 	char	*ptr;
 
-	len = ft_strlen(s) + 1;
+	len = ft_linelen(s);
 	ptr = malloc(len * 1);
 	if (ptr == NULL)
 		return (NULL);
@@ -28,15 +28,18 @@ char	*ft_strdup(const char *s)
 		ptr[i] = s[i];
 		i++;
 	}
+	ptr[i] = '\0';
 	return (ptr);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_linelen(const char *s)
 {
 	size_t	len;
 
 	len = 0;
-	while (s[len])
+	while (s[len] && s[len] != '\n')
+		len++;
+	if (s[len] == '\n')
 		len++;
 	return (len);
 }
@@ -54,7 +57,7 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_join_line(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -62,8 +65,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
+	s1_len = ft_linelen(s1);
+	printf("s1_len: %zu\n", s1_len);
+	s2_len = ft_linelen(s2);
+	printf("s2_len: %zu\n", s2_len);
 	ptr = malloc((s1_len + s2_len + 1) * 1);
 	if (ptr == NULL)
 		return (NULL);
