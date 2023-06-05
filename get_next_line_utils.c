@@ -6,24 +6,24 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/05 12:35:04 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:11:10 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_linedup(const char *s)
+char	*ft_strdup(char *s)
 {
 	size_t	len;
 	size_t	i;
 	char	*ptr;
 
-	len = ft_linelen(s);
-	ptr = malloc(len * 1);
+	len = ft_strlen(s);
+	ptr = malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i <= len)
 	{
 		ptr[i] = s[i];
 		i++;
@@ -32,14 +32,12 @@ char	*ft_linedup(const char *s)
 	return (ptr);
 }
 
-size_t	ft_linelen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 
 	len = 0;
-	while (s[len] && s[len] != '\n')
-		len++;
-	if (s[len] == '\n')
+	while (s[len])
 		len++;
 	return (len);
 }
@@ -57,18 +55,18 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-char	*ft_join_line(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
 	char	*ptr;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	s1_len = ft_linelen(s1);
-	printf("s1_len: %zu\n", s1_len);
-	s2_len = ft_linelen(s2);
-	printf("s2_len: %zu\n", s2_len);
+	if (s1 == NULL)
+		return(ft_strdup(s2));
+	if (s2 == NULL)
+		return(ft_strdup(s1));
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
 	ptr = malloc((s1_len + s2_len + 1) * 1);
 	if (ptr == NULL)
 		return (NULL);

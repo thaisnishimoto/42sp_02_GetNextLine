@@ -11,34 +11,6 @@
 
 #include "get_next_line.h"
 
-static char	*get_line(char *str)
-{
-	char	*line;
-	int	i;
-	int	line_len;
-
-	i = 0;
-	line_len = 0;
-	while (str[line_len] && str[line_len] != '\n')
-		line_len++;
-	line = malloc((line_len + 1) * sizeof(char));
-	if (line)
-	{
-		while (i < line_len)
-		{
-			line[i] = str[i];
-			i++;
-		}
-		if (str[i] == '\n')
-		{
-			line[i] = str[i];
-			i++;
-		}
-		line[i] = '\0';
-	}
-	return (line);
-}
-
 char	*get_next_line(int fd)
 {
 	char		*buffer;
@@ -50,8 +22,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (backup != NULL)
-		temp = ft_strdup(backup);
-	line = NULL;
+		line = ft_linedup(backup);
 //	printf("Backup returned: %s\n", line);
 	if (ft_strchr(backup, '\n'))
 	{
@@ -68,27 +39,28 @@ char	*get_next_line(int fd)
 //		printf("Bytes read: %d\n", bytes_read);
 		if (bytes_read == 0)
 		{
-//			free(line);
+			free(line);
 			free(buffer);
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
 //		printf("Buffer: %s\n", buffer);
 		//complete line
-		temp = ft_strjoin(temp, buffer);
+		temp = ft_join_line(line, buffer);
+		line = temp;
 //		printf("Line joined: %s\n", line);
 		//check for backup
 		if (ft_strchr(buffer, '\n'))
 		{
-			line = get_line(temp);
-			free (temp);
-			backup = ft_strchr(buffer, '\n');
+			backup = ft_memmove(backup, ft_strchr(buffer, '\n'), BUFFER_SIZE);
 			backup++;
-//			backup = ft_memmove(backup, ft_strchr(buffer, '\n'), BUFFER_SIZE);
+			//backup = ft_strdup(backup);
 //			printf("Backup: %s\n", backup);
+		//	free (buffer);
 			break ;
 		}
 		free (buffer);
+		buffer = NULL;
 	}
 	printf("Final line: %s\n", line);
 	return (line);
