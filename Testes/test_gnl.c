@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/05 18:05:49 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:53:37 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char    *get_next_line(int fd);
 //	int	fd;
 //	int	i = 0;
 //	ssize_t	bytes;
-//	char	buffer1[1000] = "1st line.\n2nd line.\n3rd line.\n";
+//	char	buffer1[1000] = "123\n456\n";
 //	char	buffer2[1000];
 //
 //	fd = open("file.txt", O_RDWR | O_CREAT, 0777);
@@ -61,6 +61,7 @@ MU_TEST(funtion_should_read_one_line)
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("RETURNED LINE: %s", line);
+		printf("LINE LEN: %zu", ft_strlen(line));
 		free(line);	
 	}
 	close (fd);

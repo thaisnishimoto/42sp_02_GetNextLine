@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/06 00:23:13 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:08:44 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return(ft_strdup(s1));
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	ptr = malloc((s1_len + s2_len + 1) * 1);
+	ptr = malloc((s1_len + s2_len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	ft_memmove(ptr, s1, s1_len);
