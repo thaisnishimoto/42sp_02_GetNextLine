@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/06 16:08:44 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:13:12 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(char *s)
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
-	while (i <= len)
+	while (i < len)
 	{
 		ptr[i] = s[i];
 		i++;
