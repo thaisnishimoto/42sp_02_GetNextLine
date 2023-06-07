@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:12:48 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/07 12:25:15 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:40:02 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (s[len])
+	while (s && s[len])
 		len++;
 	return (len);
 }
@@ -62,9 +62,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*ptr;
 
 	if (s1 == NULL)
-		return(ft_strdup(s2));
-	if (s2 == NULL)
-		return(ft_strdup(s1));
+		return (ft_strdup(s2));
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	ptr = malloc((s1_len + s2_len + 1) * sizeof(char));
