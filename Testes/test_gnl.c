@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/07 18:05:45 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:42:16 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ MU_TEST(funtion_should_read_one_line)
 	printf(" TEST 1: 2 lines");
 	printf("\n-----------------\n");
 	i = 0;
-	fd = open("file.txt", O_RDWR);
+	fd = open("./Files/file.txt", O_RDWR);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("RETURNED LINE: %s", line);
@@ -78,7 +78,7 @@ MU_TEST(int_no_nl)
 	char	*line;
 	char	*expected = {"01234567890123456789012345678901234567890"};
 
-	fd = open("41_no_nl.txt", O_RDWR | O_CREAT, 0777);
+	fd = open("./Files/41_no_nl.txt", O_RDWR | O_CREAT, 0777);
 	if (fd < 0)
 		printf("%s\n", "File did not open");
 	printf("\n-----------------\n");

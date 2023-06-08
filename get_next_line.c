@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:08:54 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/07 19:44:20 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:54:08 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,11 @@ static char	*read_until_nl(int fd, char *buffer, char *line, char *backup)
 	int	bytes_read;
 
 	if (backup)
-	{
 		line = ft_strdup(backup);
-		//free(backup);
-//		backup = NULL;
-	}
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-//		printf("Bytes read: %d\n", bytes_read);
 		if (bytes_read <= 0)
 		{
 			if (line)
@@ -35,7 +30,6 @@ static char	*read_until_nl(int fd, char *buffer, char *line, char *backup)
 		}
 		buffer[bytes_read] = '\0';
 		line = ft_strjoin(line, buffer);
-//		printf("Line joined: %s\n", line);
 		if (ft_strchr(line, '\n'))
 			break ;
 	}
@@ -66,14 +60,27 @@ static char	*get_line(char *str)
 
 static char	*save_remainder(char *buffer)
 {
-	char	*temp;
+	int		i;
+	int		len;
 	char	*remainder;
 
+	i = 0;
+	len = 0;
 	remainder = NULL;
-	temp = ft_strchr(buffer, '\n');
-	temp++;
-	if (*temp != '\0')
-		remainder = ft_strdup(temp);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
+		i++;
+	len = ft_strlen(buffer) - i;
+	if (buffer[i] != '\0')
+	{
+		remainder = malloc((len + 1) * sizeof(char));
+		if (remainder)
+		{
+			ft_memmove(remainder, &buffer[i], len);
+			remainder[len] = '\0';
+		}
+	}
 	return (remainder);
 }
 
@@ -94,35 +101,12 @@ char	*get_next_line(int fd)
 	{
 		free(backup);
 		backup = NULL;
-	}
-	if (ft_strlen(line) == 0)
+	}	
+	if (line && ft_strchr(line, '\n'))
 	{
-		free(buffer);
-		return (NULL);
-	}
-	if (line)
-	{
-		if (ft_strchr(line, '\n'))
-		{
+			backup = save_remainder(line);
 			line = get_line(line);
-			backup = save_remainder(buffer);
-		}
 	}
 	free(buffer);
 	return (line);
 }
-
-//int main(void)
-//{
-//    int        fd;
-//    char    *line;
-//
-//    fd = open("41_with_nl.txt", O_RDONLY);
-//    while ((line = get_next_line(fd)) != NULL)
-//    {
-//        printf("%s", line);
-//        free(line);
-//    }
-//    close(fd);
-//    return (0);
-//}	
