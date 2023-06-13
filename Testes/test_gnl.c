@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:00:56 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/10 18:19:03 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:42:30 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,23 @@ MU_TEST(multiple_fd)
 	close(fd4);
 	close(fd5);
 }
+
+MU_TEST(fd_0)
+{
+	int	fd;
+	char	*line = NULL;
+
+	fd = 0;
+	printf("\n-----------------\n");
+	printf(" TEST 5: fd 0");
+	printf("\n-----------------\n");
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("RETURNED LINE: %s", line);
+		free(line);	
+	}
+}
+
 MU_TEST_SUITE(test_suite)
 {
 //	MU_RUN_TEST(file_manipulation);
@@ -164,6 +181,7 @@ MU_TEST_SUITE(test_suite)
 	MU_RUN_TEST(int_no_nl);
 	MU_RUN_TEST(just_nl);
 	MU_RUN_TEST(multiple_fd);
+	MU_RUN_TEST(fd_0);
 }
 
 int	main(void)
