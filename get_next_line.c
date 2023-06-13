@@ -6,7 +6,7 @@
 /*   By: tmina-ni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 16:08:54 by tmina-ni          #+#    #+#             */
-/*   Updated: 2023/06/08 18:54:08 by tmina-ni         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:39:22 by tmina-ni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ static char	*read_until_nl(int fd, char *buffer, char *line, char *backup)
 static char	*get_line(char *str)
 {
 	char	*line;
-	int		i;
 	int		line_len;
 
-	i = 0;
 	line_len = 0;
 	while (str[line_len] && str[line_len] != '\n')
 		line_len++;
